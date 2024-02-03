@@ -1,0 +1,16 @@
+.modal {
+  width: auto;
+  height: auto;
+}
+
+.contents {
+  margin-left: 7.5rem;
+}
+
+.wrap {
+  padding: 1.5rem 4.5rem;
+}
+
+.wrap div {
+  min-width: 12rem;
+}
