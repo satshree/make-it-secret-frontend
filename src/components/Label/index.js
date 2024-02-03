@@ -20,11 +20,13 @@ export default class Label extends Component {
   componentDidUpdate() {
     let { data } = this.state;
 
-    if (data !== this.props.children || this.props.data)
-      this.setState({
-        ...this.state,
-        data: this.props.children || this.props.data,
-      });
+    if (this.props.children) {
+      if (data !== this.props.children)
+        this.setState({ ...this.state, data: this.props.children });
+    } else if (this.props.data) {
+      if (data !== this.props.data)
+        this.setState({ ...this.state, data: this.props.data });
+    }
   }
 
   render() {
