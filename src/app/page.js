@@ -7,7 +7,9 @@ import Image from "next/image";
 
 import Label from "@/components/Label";
 import Title from "@/components/Title";
+
 import FileModal from "@/components/FileModal";
+import AboutDrawer from "@/components/AboutDrawer";
 
 import style from "./page.module.css";
 
@@ -17,11 +19,14 @@ export default class Home extends Component {
 
     this.state = {
       modal: false,
+      aboutDrawer: false,
       file: null,
     };
   }
 
   toggleFileModal = (modal) => this.setState({ ...this.state, modal });
+  toggleAboutDrawer = (aboutDrawer) =>
+    this.setState({ ...this.state, aboutDrawer });
 
   render() {
     return (
@@ -54,16 +59,26 @@ export default class Home extends Component {
               </Center>
               <br />
               <Center>
-                <Button size="sm" variant="solid" colorScheme="blue">
+                <Button
+                  size="sm"
+                  variant="solid"
+                  colorScheme="blue"
+                  onClick={() => this.toggleAboutDrawer(true)}
+                >
                   About Make it Secret
                 </Button>
               </Center>
             </Box>
           </VStack>
         </div>
+
         <FileModal
           open={this.state.modal}
           closeModal={() => this.toggleFileModal(false)}
+        />
+        <AboutDrawer
+          open={this.state.aboutDrawer}
+          closeDrawer={() => this.toggleAboutDrawer(false)}
         />
       </React.Fragment>
     );

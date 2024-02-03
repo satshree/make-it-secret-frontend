@@ -1,0 +1,9 @@
+.drawerBody {
+  padding: 1.5rem 3rem;
+  margin-bottom: 3rem;
+}
+
+.aboutText {
+  width: 70% !important;
+  text-align: justify !important;
+}
