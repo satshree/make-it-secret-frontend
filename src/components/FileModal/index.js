@@ -44,7 +44,9 @@ export default class FileModal extends Component {
     };
 
     this.updateKey = this.updateKey.bind(this);
+    this.validateKey = this.validateKey.bind(this);
     this.getFileMetaData = this.getFileMetaData.bind(this);
+    this.submitEncryption = this.submitEncryption.bind(this);
   }
 
   componentDidUpdate() {
@@ -99,11 +101,28 @@ export default class FileModal extends Component {
   updateKey(key) {
     let { data } = this.state;
     data.key = key.target.value;
+    if (data.errorMessage !== "") data.errorMessage = "";
     this.setState({ ...this.state, data });
   }
 
   getFileMetaData(file) {
     return { file };
+  }
+
+  validateKey() {
+    let { data } = this.state;
+
+    if (data.key === "") {
+      data.errorMessage = "Key is required!";
+    } else {
+      data.errorMessage = "";
+    }
+
+    this.setState({ ...this.state, data });
+  }
+
+  submitEncryption() {
+    this.validateKey();
   }
 
   render() {
@@ -127,29 +146,23 @@ export default class FileModal extends Component {
               File Details
               <br />
               <div className={style.wrap}>
-                <div>
-                  <Flex alignContent="space-between" alignItems="center">
-                    <Image
-                      src="/image.png"
-                      alt="file"
-                      width={140}
-                      height={140}
-                    />
-                    <div className={style.contents}>
-                      <VStack spacing={4} align="flex-start">
-                        <Box>Name: lorem</Box>
-                        <Box>Size: lorem</Box>
-                        <Box>Type: lorem</Box>
-                      </VStack>
-                    </div>
-                  </Flex>
-                  <br />
-                  <KeyInput
-                    data={this.state.data.key}
-                    updateData={this.updateKey}
-                    helpText={this.getHelpText()}
-                  />
-                </div>
+                <Flex alignContent="space-between" alignItems="center">
+                  <Image src="/image.png" alt="file" width={150} height={150} />
+                  <div className={style.contents}>
+                    <VStack spacing={4} align="flex-start">
+                      <Box>Name: lorem</Box>
+                      <Box>Size: lorem</Box>
+                      <Box>Type: lorem</Box>
+                    </VStack>
+                  </div>
+                </Flex>
+                <br />
+                <KeyInput
+                  data={this.state.data.key}
+                  updateData={this.updateKey}
+                  helpText={this.getHelpText()}
+                  errorText={this.state.data.errorMessage}
+                />
               </div>
             </div>
           </ModalBody>
@@ -162,6 +175,7 @@ export default class FileModal extends Component {
               variant="solid"
               colorScheme={this.getButtonScheme()}
               isLoading={this.state.progress}
+              onClick={this.submitEncryption}
             >
               {this.getTitle()}
             </Button>

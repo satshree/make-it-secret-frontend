@@ -9,8 +9,5 @@
 
 .wrap {
   padding: 1.5rem 4.5rem;
+  min-width: 40rem;
 }
-
-/* .wrap div {
-  min-width: 12rem;
-} */

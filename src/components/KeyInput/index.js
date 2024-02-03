@@ -29,10 +29,13 @@ export default class KeyInput extends Component {
   }
 
   componentDidUpdate() {
-    let { helpText } = this.state;
+    let { helpText, errorText } = this.state;
 
     if (helpText !== this.props.helpText)
       this.setState({ ...this.state, helpText: this.props.helpText });
+
+    if (errorText !== this.props.errorText)
+      this.setState({ ...this.state, errorText: this.props.errorText });
   }
 
   toggleMode = () =>
@@ -43,7 +46,7 @@ export default class KeyInput extends Component {
 
   render() {
     return (
-      <FormControl>
+      <FormControl isInvalid={this.state.errorText !== ""}>
         <InputGroup size="md">
           <Input
             pr="4.5rem"
