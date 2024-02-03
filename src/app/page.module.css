@@ -1,0 +1,22 @@
+.uploadArea {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  background-color: #edf2f7;
+  border-radius: 8px;
+
+  /* min-width: 30rem; */
+  /* min-height: 15rem; */
+
+  padding: 1.5rem 10rem;
+}
+
+.uploadArea img {
+  margin-bottom: 2rem;
+}
+
+.uploadArea:hover {
+  cursor: pointer;
+}
