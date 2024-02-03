@@ -24,7 +24,13 @@ export default class Title extends Component {
   }
 
   componentDidUpdate() {
-    let { subtitle } = this.state;
+    let { data, subtitle } = this.state;
+
+    if (data !== this.props.children || this.props.data)
+      this.setState({
+        ...this.state,
+        data: this.props.children || this.props.data,
+      });
 
     if (subtitle !== this.props.subtitle)
       this.setState({ ...this.state, subtitle: this.props.subtitle });
