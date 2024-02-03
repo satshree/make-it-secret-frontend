@@ -19,6 +19,7 @@ import {
 
 import Image from "next/image";
 
+import Label from "../Label";
 import KeyInput from "../KeyInput";
 
 import style from "./style.module.css";
@@ -67,14 +68,24 @@ export default class FileModal extends Component {
     }
   }
 
-  getTitle = () => (this.state.encryptMode ? "Encrypt" : "Decrypt");
+  getTitle = () =>
+    this.state.encryptMode ? (
+      <Label data="Encrypt" />
+    ) : (
+      <Label data="Decrypt" />
+    );
 
   getButtonScheme = () => (this.state.encryptMode ? "red" : "green");
 
   getHelpText = () =>
-    this.state.encryptMode
-      ? "Enter a strong key to encrypt this file. Only this key can decrypt this file."
-      : "Enter the key used to encrypt this file.";
+    this.state.encryptMode ? (
+      <Label>
+        Enter a strong key to encrypt this file. Only this key can decrypt this
+        file.
+      </Label>
+    ) : (
+      <Label>Enter the key used to encrypt this file.</Label>
+    );
 
   setProgress = (progress) => this.setState({ ...this.state, progress });
 
@@ -143,16 +154,22 @@ export default class FileModal extends Component {
           <ModalCloseButton />
           <ModalBody>
             <div>
-              File Details
+              <Label>File Details</Label>
               <br />
               <div className={style.wrap}>
                 <Flex alignContent="space-between" alignItems="center">
                   <Image src="/image.png" alt="file" width={150} height={150} />
                   <div className={style.contents}>
                     <VStack spacing={4} align="flex-start">
-                      <Box>Name: lorem</Box>
-                      <Box>Size: lorem</Box>
-                      <Box>Type: lorem</Box>
+                      <Box>
+                        <Label>Name: lorem</Label>
+                      </Box>
+                      <Box>
+                        <Label>Size: lorem</Label>
+                      </Box>
+                      <Box>
+                        <Label>Type: lorem</Label>
+                      </Box>
                     </VStack>
                   </div>
                 </Flex>

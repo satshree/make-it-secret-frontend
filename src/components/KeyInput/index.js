@@ -11,7 +11,10 @@ import {
   FormErrorMessage,
   InputRightElement,
 } from "@chakra-ui/react";
+
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+
+import Label from "../Label";
 
 export default class KeyInput extends Component {
   constructor(props) {
@@ -68,9 +71,13 @@ export default class KeyInput extends Component {
           </InputRightElement>
         </InputGroup>
         {this.state.errorText ? (
-          <FormErrorMessage>{this.state.errorText}</FormErrorMessage>
+          <FormErrorMessage>
+            <Label data={this.state.errorText} />
+          </FormErrorMessage>
         ) : (
-          <FormHelperText>{this.state.helpText}</FormHelperText>
+          <FormHelperText>
+            <Label data={this.state.helpText} />
+          </FormHelperText>
         )}
       </FormControl>
     );
