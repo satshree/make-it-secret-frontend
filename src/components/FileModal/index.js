@@ -15,11 +15,11 @@ import {
   Flex,
   Button,
   VStack,
-  FormControl,
-  Input,
 } from "@chakra-ui/react";
 
 import Image from "next/image";
+
+import KeyInput from "../KeyInput";
 
 import style from "./style.module.css";
 
@@ -39,9 +39,11 @@ export default class FileModal extends Component {
       },
       data: {
         key: "",
+        errorMessage: "",
       },
     };
 
+    this.updateKey = this.updateKey.bind(this);
     this.getFileMetaData = this.getFileMetaData.bind(this);
   }
 
@@ -67,6 +69,11 @@ export default class FileModal extends Component {
 
   getButtonScheme = () => (this.state.encryptMode ? "red" : "green");
 
+  getHelpText = () =>
+    this.state.encryptMode
+      ? "Enter a strong key to encrypt this file. Only this key can decrypt this file."
+      : "Enter the key used to encrypt this file.";
+
   setProgress = (progress) => this.setState({ ...this.state, progress });
 
   setEncryptMode = (encryptMode) =>
@@ -85,8 +92,15 @@ export default class FileModal extends Component {
       },
       data: {
         key: "",
+        errorMessage: "",
       },
     });
+
+  updateKey(key) {
+    let { data } = this.state;
+    data.key = key.target.value;
+    this.setState({ ...this.state, data });
+  }
 
   getFileMetaData(file) {
     return { file };
@@ -130,9 +144,11 @@ export default class FileModal extends Component {
                     </div>
                   </Flex>
                   <br />
-                  <FormControl>
-                    <Input placeholder="Key" />
-                  </FormControl>
+                  <KeyInput
+                    data={this.state.data.key}
+                    updateData={this.updateKey}
+                    helpText={this.getHelpText()}
+                  />
                 </div>
               </div>
             </div>
@@ -144,7 +160,7 @@ export default class FileModal extends Component {
             </Button>
             <Button
               variant="solid"
-              colorScheme="red"
+              colorScheme={this.getButtonScheme()}
               isLoading={this.state.progress}
             >
               {this.getTitle()}

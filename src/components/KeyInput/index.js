@@ -18,7 +18,6 @@ export default class KeyInput extends Component {
     super(props);
 
     this.state = {
-      data: "",
       mode: "password",
       helpText: "",
       errorText: "",
@@ -33,11 +32,8 @@ export default class KeyInput extends Component {
     let { helpText } = this.state;
 
     if (helpText !== this.props.helpText)
-      this.setState({ ...this.state, helpText });
+      this.setState({ ...this.state, helpText: this.props.helpText });
   }
-
-  updateData = (data) =>
-    this.setState({ ...this.state, data: data.target.value });
 
   toggleMode = () =>
     this.setState({
@@ -51,10 +47,10 @@ export default class KeyInput extends Component {
         <InputGroup size="md">
           <Input
             pr="4.5rem"
-            type={this.state.mode}
             placeholder="Key"
-            value={this.state.data}
-            onChange={this.updateData}
+            type={this.state.mode}
+            value={this.props.data}
+            onChange={this.props.updateData}
           />
           <InputRightElement width="4.5rem">
             <IconButton
