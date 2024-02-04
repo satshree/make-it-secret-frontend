@@ -67,19 +67,17 @@ export default function UploadCard(props) {
       }}
     >
       {({ getRootProps, getInputProps }) => (
-        <section>
-          <div
-            className={style.uploadArea}
-            {...getRootProps()}
-            style={focusedStyle}
-          >
-            <input {...getInputProps()} />
-            <Image src="/upload.svg" height={270} width={270} alt="upload" />
-            <Center>
-              <Label>{uploadText}</Label>
-            </Center>
-          </div>
-        </section>
+        <div
+          className={style.uploadArea}
+          {...getRootProps()}
+          style={focusedStyle}
+        >
+          <input {...getInputProps()} />
+          <Image src="/upload.svg" height={270} width={270} alt="upload" />
+          <Center>
+            <Label>{uploadText}</Label>
+          </Center>
+        </div>
       )}
     </Dropzone>
   );
