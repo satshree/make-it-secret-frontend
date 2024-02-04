@@ -12,7 +12,6 @@ import {
   DrawerCloseButton,
   //
   Box,
-  Flex,
   Button,
   VStack,
 } from "@chakra-ui/react";
@@ -148,7 +147,7 @@ export default class FileDrawer extends Component {
               <Label>File Details</Label>
               <br />
               <div className={style.wrap}>
-                <Flex alignContent="space-between" alignItems="center">
+                <VStack spacing={75} align="flex-start">
                   <Image
                     src={
                       this.state.encryptMode ? "/file.png" : "/file-lock.png"
@@ -170,14 +169,13 @@ export default class FileDrawer extends Component {
                       </Box>
                     </VStack>
                   </div>
-                </Flex>
-                <br />
-                <KeyInput
-                  data={this.state.data.key}
-                  updateData={this.updateKey}
-                  helpText={this.getHelpText()}
-                  errorText={this.state.data.errorMessage}
-                />
+                  <KeyInput
+                    data={this.state.data.key}
+                    updateData={this.updateKey}
+                    helpText={this.getHelpText()}
+                    errorText={this.state.data.errorMessage}
+                  />
+                </VStack>
               </div>
             </div>
           </DrawerBody>

@@ -77,7 +77,7 @@ export default class AboutDrawer extends Component {
                   href="https://github.com/satshree/make-it-secret-frontend"
                   isExternal={true}
                 >
-                  <Button variant="solid" colorScheme="teal">
+                  <Button variant="solid" colorScheme="blue">
                     GitHub
                   </Button>
                 </Link>
