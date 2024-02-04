@@ -47,7 +47,7 @@ export default class AboutDrawer extends Component {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>About Make it Secret</DrawerHeader>
+          <DrawerHeader>From Satshree,</DrawerHeader>
 
           <DrawerBody className={style.drawerBody}>
             <Box>
@@ -56,9 +56,11 @@ export default class AboutDrawer extends Component {
                   <Label>
                     Make It Secret is a simple app that Encrypts or Decrypts a
                     file with a strong AES (American Encryption Standard)
-                    Encryption Algorithm. With Make It Secret, you can make any
-                    files inaccessible and of course, only you can decrypt them
-                    with your key!
+                    Encryption Algorithm.
+                  </Label>
+                  <Label>
+                    With Make It Secret, you can make any files inaccessible and
+                    of course, only you can decrypt them with your key!
                   </Label>
                   <br />
                   <Label>
@@ -68,7 +70,6 @@ export default class AboutDrawer extends Component {
                 </div>
               </Center>
             </Box>
-            <br />
             <br />
             <Box>
               <Center>
@@ -81,8 +82,9 @@ export default class AboutDrawer extends Component {
                   </Button>
                 </Link>
               </Center>
+              <br />
               <Center>
-                <small style={{ marginTop: "0.5rem" }}>
+                <small>
                   <Label>
                     The Backend API is not public for security reasons.
                   </Label>

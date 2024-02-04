@@ -7,3 +7,9 @@
   width: 70% !important;
   text-align: justify !important;
 }
+
+@media (max-width: 568px) {
+  .aboutText {
+    text-align: left !important;
+  }
+}
