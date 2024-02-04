@@ -70,15 +70,9 @@ export default class FileDrawer extends Component {
 
   getHelpText = () =>
     this.state.encryptMode ? (
-      <Label>
-        Enter a strong key to encrypt this file. Only this key can decrypt this
-        file.
-      </Label>
+      <Label>Enter a strong key to encrypt this file.</Label>
     ) : (
-      <Label>
-        Enter the key used to encrypt this file. Only that key can decrypt this
-        file.
-      </Label>
+      <Label>Enter the key used to encrypt this file.</Label>
     );
 
   setProgress = (progress) => this.setState({ ...this.state, progress });
