@@ -43,15 +43,19 @@ export default class Home extends Component {
               </Center>
             </Box>
             <Box>
-              <div className={style.uploadArea}>
-                <Image
-                  src="/upload.svg"
-                  height={270}
-                  width={270}
-                  alt="upload"
-                />
-                <Label>Click or Drop files here</Label>
-              </div>
+              <Center>
+                <div className={style.uploadArea}>
+                  <Image
+                    src="/upload.svg"
+                    height={270}
+                    width={270}
+                    alt="upload"
+                  />
+                  <Center>
+                    <Label>Click or Drop files here</Label>
+                  </Center>
+                </div>
+              </Center>
             </Box>
             <Box>
               <Center>

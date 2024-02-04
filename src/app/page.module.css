@@ -20,3 +20,11 @@
 .uploadArea:hover {
   cursor: pointer;
 }
+
+@media (max-width: 600px) {
+  .uploadArea {
+    max-width: 75%;
+    padding: 1.5rem 2.75rem;
+    font-size: 14px;
+  }
+}
