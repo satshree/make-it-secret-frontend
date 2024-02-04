@@ -3,15 +3,15 @@
 import React, { Component } from "react";
 
 import { Button, Box, Center, VStack } from "@chakra-ui/react";
-import Image from "next/image";
 
 import Label from "@/components/Label";
 import Title from "@/components/Title";
 
 import FileModal from "@/components/FileModal";
+import UploadCard from "@/components/UploadCard";
 import AboutDrawer from "@/components/AboutDrawer";
 
-import style from "./page.module.css";
+// import style from "./page.module.css";
 
 export default class Home extends Component {
   constructor(props) {
@@ -22,11 +22,20 @@ export default class Home extends Component {
       aboutDrawer: false,
       file: null,
     };
+
+    this.setFile = this.setFile.bind(this);
   }
 
   toggleFileModal = (modal) => this.setState({ ...this.state, modal });
+
   toggleAboutDrawer = (aboutDrawer) =>
     this.setState({ ...this.state, aboutDrawer });
+
+  setFile(uploadedFile) {
+    console.log("here", uploadedFile);
+
+    this.setState({ ...this.state, file: uploadedFile });
+  }
 
   render() {
     return (
@@ -44,17 +53,7 @@ export default class Home extends Component {
             </Box>
             <Box>
               <Center>
-                <div className={style.uploadArea}>
-                  <Image
-                    src="/upload.svg"
-                    height={270}
-                    width={270}
-                    alt="upload"
-                  />
-                  <Center>
-                    <Label>Click or Drop files here</Label>
-                  </Center>
-                </div>
+                <UploadCard setFile={this.setFile} />
               </Center>
             </Box>
             <Box>
