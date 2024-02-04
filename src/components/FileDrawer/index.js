@@ -3,13 +3,13 @@
 import React, { Component } from "react";
 
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
   //
   Box,
   Flex,
@@ -24,7 +24,7 @@ import KeyInput from "../KeyInput";
 
 import style from "./style.module.css";
 
-export default class FileModal extends Component {
+export default class FileDrawer extends Component {
   constructor(props) {
     super(props);
 
@@ -53,14 +53,11 @@ export default class FileModal extends Component {
   componentDidUpdate() {
     let { file } = this.state;
 
-    // if (open !== this.props.open)
-    //   this.setState({ ...this.state, open: this.props.open });
-
-    if (window.innerWidth > 600 && file.file !== this.props.file)
+    if (window.innerWidth < 601 && file.file !== this.props.file)
       this.getFileMetaData(this.props.file);
   }
 
-  closeModal = () => this.setState({ ...this.state, open: false });
+  closeDrawer = () => this.setState({ ...this.state, open: false });
 
   getTitle = () =>
     this.state.encryptMode ? (
@@ -88,23 +85,6 @@ export default class FileModal extends Component {
 
   setEncryptMode = (encryptMode) =>
     this.setState({ ...this.state, encryptMode });
-
-  resetModalData = () =>
-    this.setState({
-      open: false,
-      encryptMode: true,
-      progress: false,
-      file: {
-        file: null,
-        name: "",
-        size: "",
-        type: "",
-      },
-      data: {
-        key: "",
-        errorMessage: "",
-      },
-    });
 
   updateKey(key) {
     let { data } = this.state;
@@ -156,21 +136,20 @@ export default class FileModal extends Component {
 
   render() {
     return (
-      <Modal
-        isCentered={true}
+      <Drawer
+        placement="bottom"
         isOpen={this.state.open}
-        onClose={this.closeModal}
-        // onCloseComplete={this.resetModalData}
+        onClose={this.closeDrawer}
       >
-        <ModalOverlay />
-        <ModalContent
+        <DrawerOverlay />
+        <DrawerContent
           className={style.modal}
           minWidth="fit-content"
           height="fit-content"
         >
-          <ModalHeader>{this.getTitle()}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+          <DrawerHeader>{this.getTitle()}</DrawerHeader>
+          <DrawerCloseButton />
+          <DrawerBody>
             <div>
               <Label>File Details</Label>
               <br />
@@ -207,10 +186,10 @@ export default class FileModal extends Component {
                 />
               </div>
             </div>
-          </ModalBody>
+          </DrawerBody>
 
-          <ModalFooter>
-            <Button colorScheme="gray" mr={3} onClick={this.closeModal}>
+          <DrawerFooter>
+            <Button colorScheme="gray" mr={3} onClick={this.closeDrawer}>
               Close
             </Button>
             <Button
@@ -221,9 +200,9 @@ export default class FileModal extends Component {
             >
               {this.getTitle()}
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     );
   }
 }

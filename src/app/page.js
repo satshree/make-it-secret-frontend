@@ -8,6 +8,7 @@ import Label from "@/components/Label";
 import Title from "@/components/Title";
 
 import FileModal from "@/components/FileModal";
+import FileDrawer from "@/components/FileDrawer";
 import UploadCard from "@/components/UploadCard";
 import AboutDrawer from "@/components/AboutDrawer";
 
@@ -80,6 +81,7 @@ export default class Home extends Component {
           file={this.state.file}
           // closeModal={() => this.toggleFileModal(false)}
         />
+        <FileDrawer file={this.state.file} />
         <AboutDrawer
           open={this.state.aboutDrawer}
           closeDrawer={() => this.toggleAboutDrawer(false)}
