@@ -18,7 +18,7 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-      modal: false,
+      // modal: false,
       aboutDrawer: false,
       file: null,
     };
@@ -26,7 +26,7 @@ export default class Home extends Component {
     this.setFile = this.setFile.bind(this);
   }
 
-  toggleFileModal = (modal) => this.setState({ ...this.state, modal });
+  // toggleFileModal = (modal) => this.setState({ ...this.state, modal });
 
   toggleAboutDrawer = (aboutDrawer) =>
     this.setState({ ...this.state, aboutDrawer });
@@ -48,7 +48,7 @@ export default class Home extends Component {
               </Center>
               <br />
               <Center>
-                <Title subtitle={true}>Encrypt or Decrypt files</Title>
+                <Title subtitle={true}>Encrypt or Decrypt file</Title>
               </Center>
             </Box>
             <Box>
@@ -76,8 +76,9 @@ export default class Home extends Component {
         </div>
 
         <FileModal
-          open={this.state.modal}
-          closeModal={() => this.toggleFileModal(false)}
+          // open={this.state.modal}
+          file={this.state.file}
+          // closeModal={() => this.toggleFileModal(false)}
         />
         <AboutDrawer
           open={this.state.aboutDrawer}

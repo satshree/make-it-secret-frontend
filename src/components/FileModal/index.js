@@ -51,22 +51,15 @@ export default class FileModal extends Component {
   }
 
   componentDidUpdate() {
-    let { open, encryptMode, file } = this.state;
+    let { file } = this.state;
 
-    if (open !== this.props.open) {
-      this.setState({ ...this.state, open: this.props.open });
-    }
+    // if (open !== this.props.open)
+    //   this.setState({ ...this.state, open: this.props.open });
 
-    // if (encryptMode !== this.props.encryptMode) {
-    //   this.setState({ ...this.state, encryptMode: this.props.encryptMode });
-    // }
-
-    if (file.file !== this.props.file) {
-      file = this.getFileMetaData(this.props.file);
-
-      this.setState({ ...this.state, file });
-    }
+    if (file.file !== this.props.file) this.getFileMetaData(this.props.file);
   }
+
+  closeModal = () => this.setState({ ...this.state, open: false });
 
   getTitle = () =>
     this.state.encryptMode ? (
@@ -84,7 +77,10 @@ export default class FileModal extends Component {
         file.
       </Label>
     ) : (
-      <Label>Enter the key used to encrypt this file.</Label>
+      <Label>
+        Enter the key used to encrypt this file. Only that key can decrypt this
+        file.
+      </Label>
     );
 
   setProgress = (progress) => this.setState({ ...this.state, progress });
@@ -117,7 +113,28 @@ export default class FileModal extends Component {
   }
 
   getFileMetaData(file) {
-    return { file };
+    let encryptMode = true;
+    let fileType = file.type;
+
+    if (
+      file.type === "" &&
+      file.name.split(".")[file.name.split(".").length - 1] === "mis"
+    ) {
+      encryptMode = false;
+      fileType = "makeitsecret file";
+    }
+
+    this.setState({
+      ...this.state,
+      open: true,
+      encryptMode,
+      file: {
+        file,
+        name: file.name,
+        size: Math.round(file.size / 1024) / 100,
+        type: fileType,
+      },
+    });
   }
 
   validateKey() {
@@ -141,8 +158,8 @@ export default class FileModal extends Component {
       <Modal
         isCentered={true}
         isOpen={this.state.open}
-        onClose={this.props.closeModal}
-        onCloseComplete={this.resetModalData}
+        onClose={this.closeModal}
+        // onCloseComplete={this.resetModalData}
       >
         <ModalOverlay />
         <ModalContent
@@ -158,17 +175,24 @@ export default class FileModal extends Component {
               <br />
               <div className={style.wrap}>
                 <Flex alignContent="space-between" alignItems="center">
-                  <Image src="/image.png" alt="file" width={150} height={150} />
+                  <Image
+                    src={
+                      this.state.encryptMode ? "/file.png" : "/file-lock.png"
+                    }
+                    alt="file"
+                    width={150}
+                    height={150}
+                  />
                   <div className={style.contents}>
                     <VStack spacing={4} align="flex-start">
                       <Box>
-                        <Label>Name: lorem</Label>
+                        <Label>Name: {this.state.file.name}</Label>
                       </Box>
                       <Box>
-                        <Label>Size: lorem</Label>
+                        <Label>Size: {this.state.file.size} MB</Label>
                       </Box>
                       <Box>
-                        <Label>Type: lorem</Label>
+                        <Label>Type: {this.state.file.type}</Label>
                       </Box>
                     </VStack>
                   </div>
@@ -185,7 +209,7 @@ export default class FileModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="gray" mr={3} onClick={this.props.closeModal}>
+            <Button colorScheme="gray" mr={3} onClick={this.closeModal}>
               Close
             </Button>
             <Button

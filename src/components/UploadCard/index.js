@@ -19,11 +19,25 @@ export default function UploadCard(props) {
     <Dropzone
       multiple={false}
       onDropAccepted={(files) => {
-        setUploadText("Click or Drop files here");
+        let file = files[0];
+        setUploadText("Click or Drop file here");
         setStyle({
           border: "1px solid #FFFFFF",
         });
-        props.setFile(files[0]);
+
+        if (
+          file.type === "" &&
+          file.name.split(".")[file.name.split(".").length - 1] !== "mis"
+        ) {
+          toast({
+            description: "Unrecognized file type.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          props.setFile(files[0]);
+        }
       }}
       onDropRejected={() => {
         toast({
@@ -33,7 +47,7 @@ export default function UploadCard(props) {
           duration: 9000,
           isClosable: true,
         });
-        setUploadText("Click or Drop files here");
+        setUploadText("Click or Drop file here");
         setStyle({
           border: "1px solid #FFFFFF",
         });
@@ -46,7 +60,7 @@ export default function UploadCard(props) {
         });
       }}
       onDragLeave={() => {
-        setUploadText("Click or Drop files here");
+        setUploadText("Click or Drop file here");
         setStyle({
           border: "1px solid #FFFFFF",
         });
