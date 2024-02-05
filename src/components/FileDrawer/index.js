@@ -54,6 +54,8 @@ export default class FileDrawer extends Component {
 
     if (window.innerWidth < 601 && file.file !== this.props.file)
       this.getFileMetaData(this.props.file);
+
+    if (this.props.success) this.closeDrawer();
   }
 
   closeDrawer = () => this.setState({ ...this.state, open: false });
@@ -78,6 +80,15 @@ export default class FileDrawer extends Component {
 
   setEncryptMode = (encryptMode) =>
     this.setState({ ...this.state, encryptMode });
+
+  resetDrawerData = () =>
+    this.setState({
+      ...this.state,
+      data: {
+        key: "",
+        errorMessage: "",
+      },
+    });
 
   updateKey(key) {
     let { data } = this.state;
@@ -109,22 +120,27 @@ export default class FileDrawer extends Component {
         type: fileType,
       },
     });
+    this.props.setEncrypt(encryptMode);
   }
 
   validateKey() {
     let { data } = this.state;
+    let validation = false;
 
     if (data.key === "") {
       data.errorMessage = "Key is required!";
     } else {
       data.errorMessage = "";
+      validation = true;
     }
 
     this.setState({ ...this.state, data });
+    return validation;
   }
 
   submitEncryption() {
-    this.validateKey();
+    if (this.validateKey())
+      this.props.submitEncryption(this.state.data.key, this.state.encryptMode);
   }
 
   render() {
@@ -133,13 +149,10 @@ export default class FileDrawer extends Component {
         placement="bottom"
         isOpen={this.state.open}
         onClose={this.closeDrawer}
+        onCloseComplete={this.resetDrawerData}
       >
         <DrawerOverlay />
-        <DrawerContent
-          className={style.modal}
-          minWidth="fit-content"
-          height="fit-content"
-        >
+        <DrawerContent>
           <DrawerHeader>{this.getTitle()}</DrawerHeader>
           <DrawerCloseButton />
           <DrawerBody>
@@ -147,7 +160,7 @@ export default class FileDrawer extends Component {
               <Label>File Details</Label>
               <br />
               <div className={style.wrap}>
-                <VStack spacing={75} align="flex-start">
+                <VStack spacing="50px" align="flex-start">
                   <Image
                     src={
                       this.state.encryptMode ? "/file.png" : "/file-lock.png"

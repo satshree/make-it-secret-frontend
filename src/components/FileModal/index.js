@@ -16,6 +16,7 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
+import { toast, Bounce } from "react-toastify";
 
 import Image from "next/image";
 
@@ -23,6 +24,11 @@ import Label from "../Label";
 import KeyInput from "../KeyInput";
 
 import style from "./style.module.css";
+
+import { API_ROOT } from "@/utilities";
+import $ from "jquery";
+
+const API_HEADER = process.env.NEXT_PUBLIC_API_HEADER;
 
 export default class FileModal extends Component {
   constructor(props) {
@@ -58,6 +64,11 @@ export default class FileModal extends Component {
 
     if (window.innerWidth > 600 && file.file !== this.props.file)
       this.getFileMetaData(this.props.file);
+
+    // if (progress !== this.props.progress)
+    //   this.setState({ ...this.state, progress });
+
+    // if (this.props.success) this.closeModal();
   }
 
   closeModal = () => this.setState({ ...this.state, open: false });
@@ -91,15 +102,7 @@ export default class FileModal extends Component {
 
   resetModalData = () =>
     this.setState({
-      open: false,
-      encryptMode: true,
-      progress: false,
-      file: {
-        file: null,
-        name: "",
-        size: "",
-        type: "",
-      },
+      ...this.state,
       data: {
         key: "",
         errorMessage: "",
@@ -136,22 +139,118 @@ export default class FileModal extends Component {
         type: fileType,
       },
     });
+    // this.props.setEncrypt(encryptMode);
   }
 
   validateKey() {
     let { data } = this.state;
+    let validation = false;
 
     if (data.key === "") {
       data.errorMessage = "Key is required!";
     } else {
       data.errorMessage = "";
+      validation = true;
     }
 
     this.setState({ ...this.state, data });
+    return validation;
   }
 
   submitEncryption() {
-    this.validateKey();
+    if (this.validateKey()) {
+      this.setState({ ...this.state, progress: true });
+
+      let { file, data, encryptMode, open } = this.state;
+      let formData = new FormData();
+      let apiURL = API_ROOT;
+
+      formData.append("key", data.key);
+      formData.append("file", file.file);
+
+      if (encryptMode) {
+        apiURL += "/api/encrypt/";
+      } else {
+        apiURL += "/api/decrypt/";
+      }
+
+      $.ajax({
+        url: apiURL,
+        method: "POST",
+        headers: {
+          app: API_HEADER,
+        },
+        data: formData,
+        xhrFields: {
+          responseType: "blob",
+        },
+        processData: false,
+        contentType: false,
+        success: (resp, status, xhr) => {
+          let fileName = JSON.parse(
+            xhr.getResponseHeader("content-disposition").split("filename=")[1]
+          );
+
+          if (typeof window !== "undefined") {
+            const url = window.URL.createObjectURL(resp);
+            const a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+
+            toast.success(
+              `File ${encryptMode ? "encryption" : "decryption"} successful`,
+              {
+                position: "top-center",
+                autoClose: 9000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+              }
+            );
+
+            open = false;
+          } else {
+            toast.warning("Something went wrong. Please try again", {
+              position: "top-center",
+              autoClose: 9000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              theme: "colored",
+              transition: Bounce,
+            });
+          }
+          this.setState({ ...this.state, progress: false, open });
+        },
+        error: (err) => {
+          console.log("ERROR", err);
+
+          toast.error(
+            err.status === 555
+              ? "Invalid encryption key!"
+              : "Something went wrong. Please try again",
+            {
+              position: "top-center",
+              autoClose: 9000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              theme: "colored",
+              transition: Bounce,
+            }
+          );
+
+          this.setState({ ...this.state, progress: false });
+        },
+      });
+    }
   }
 
   render() {
@@ -160,7 +259,7 @@ export default class FileModal extends Component {
         isCentered={true}
         isOpen={this.state.open}
         onClose={this.closeModal}
-        // onCloseComplete={this.resetModalData}
+        onCloseComplete={this.resetModalData}
       >
         <ModalOverlay />
         <ModalContent
@@ -210,7 +309,12 @@ export default class FileModal extends Component {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="gray" mr={3} onClick={this.closeModal}>
+            <Button
+              isDisabled={this.state.progress}
+              colorScheme="gray"
+              mr={3}
+              onClick={this.closeModal}
+            >
               Close
             </Button>
             <Button

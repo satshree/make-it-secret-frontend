@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 
 import Dropzone from "react-dropzone";
-import { Center, useToast } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
+import { toast, Bounce } from "react-toastify";
 import Image from "next/image";
 
 import Label from "../Label";
@@ -13,7 +14,6 @@ import style from "./style.module.css";
 export default function UploadCard(props) {
   const [uploadText, setUploadText] = useState("Click or Drop file here");
   const [focusedStyle, setStyle] = useState({});
-  const toast = useToast();
 
   return (
     <Dropzone
@@ -40,13 +40,16 @@ export default function UploadCard(props) {
         }
       }}
       onDropRejected={() => {
-        toast({
-          title: "Something went wrong",
-          description: "Unable to accept your file. Please try again.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
+        toast.error("Unable to accept your file. Please try again", {
+          position: "top-center",
+          autoClose: 9000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          theme: "colored",
+          transition: Bounce,
         });
+
         setUploadText("Click or Drop file here");
         setStyle({
           border: "1px solid #FFFFFF",

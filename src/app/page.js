@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 
 import { Button, Box, Center, VStack } from "@chakra-ui/react";
-
 import Label from "@/components/Label";
 import Title from "@/components/Title";
 
@@ -12,6 +11,11 @@ import FileDrawer from "@/components/FileDrawer";
 import UploadCard from "@/components/UploadCard";
 import AboutDrawer from "@/components/AboutDrawer";
 
+import $ from "jquery";
+import { API_ROOT } from "@/utilities";
+
+const API_HEADER = process.env.NEXT_PUBLIC_API_HEADER;
+
 // import style from "./page.module.css";
 
 export default class Home extends Component {
@@ -19,7 +23,6 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
-      // modal: false,
       aboutDrawer: false,
       file: null,
     };
@@ -27,14 +30,10 @@ export default class Home extends Component {
     this.setFile = this.setFile.bind(this);
   }
 
-  // toggleFileModal = (modal) => this.setState({ ...this.state, modal });
-
   toggleAboutDrawer = (aboutDrawer) =>
     this.setState({ ...this.state, aboutDrawer });
 
   setFile(uploadedFile) {
-    console.log("here", uploadedFile);
-
     this.setState({ ...this.state, file: uploadedFile });
   }
 
@@ -76,11 +75,7 @@ export default class Home extends Component {
           </VStack>
         </div>
 
-        <FileModal
-          // open={this.state.modal}
-          file={this.state.file}
-          // closeModal={() => this.toggleFileModal(false)}
-        />
+        <FileModal file={this.state.file} />
         <FileDrawer file={this.state.file} />
         <AboutDrawer
           open={this.state.aboutDrawer}
