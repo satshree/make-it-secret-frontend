@@ -43,7 +43,7 @@ export default class AboutDrawer extends Component {
         isOpen={this.state.open}
         placement="bottom"
         onClose={this.props.closeDrawer}
-        size="xl"
+        // size="xl"
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -55,14 +55,14 @@ export default class AboutDrawer extends Component {
               <Center>
                 <div className={style.aboutText}>
                   <Label>
-                    Make It Secret is a simple app that Encrypts or Decrypts a
-                    file with a strong AES (American Encryption Standard)
-                    Encryption Algorithm. With Make It Secret, you can make any
-                    files inaccessible and of course, only you can decrypt them
-                    with your key. Make sure to store the key used for
-                    encryption in a safe way. Without the key, the encrypted
-                    file cannot be decrypted and there is no way to recover the
-                    lost key!
+                    Thank you for using Make It Secret =). Make It Secret is a
+                    simple app that Encrypts or Decrypts a file with a strong
+                    AES (American Encryption Standard) Encryption Algorithm.
+                    With Make It Secret, you can make any files inaccessible and
+                    of course, only you can decrypt them with your key. Make
+                    sure to store the key used for encryption in a safe way.
+                    Without the key, the encrypted file cannot be decrypted and
+                    there is no way to recover the lost key!
                   </Label>
                   <br />
                   <Label>
@@ -109,6 +109,16 @@ export default class AboutDrawer extends Component {
                 </HStack>
               </Center>
               <br />
+              <Center>
+                <Button
+                  type="solid"
+                  size="sm"
+                  colorScheme="gray"
+                  onClick={this.props.closeDrawer}
+                >
+                  Close
+                </Button>
+              </Center>
             </Box>
           </DrawerBody>
         </DrawerContent>

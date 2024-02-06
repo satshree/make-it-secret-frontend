@@ -10,6 +10,7 @@
 
 @media (max-width: 568px) {
   .aboutText {
+    width: 90% !important;
     text-align: left !important;
   }
 }
