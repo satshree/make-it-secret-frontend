@@ -1,6 +1,7 @@
 "use client";
 
 import React, { Component } from "react";
+import Link from "next/link";
 
 import { Button, Box, Center, VStack } from "@chakra-ui/react";
 import Label from "@/components/Label";
@@ -55,7 +56,11 @@ export default class Home extends Component {
             </Box>
             <Box>
               <Center>
-                <Label>Made by Satshree Shrestha</Label>
+                <Label>
+                  <Link href="https://satshree.com.np" target="_blank">
+                    Made by Satshree Shrestha
+                  </Link>
+                </Label>
               </Center>
               <br />
               <Center>
