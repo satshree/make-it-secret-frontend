@@ -69,19 +69,20 @@ export default class AboutDrawer extends Component {
                     No files or any data is stored in any servers. The process
                     is completely safe.
                   </Label>
-                  <br />
+                  {/* <br />
                   <Label>
                     Make It Secret was also available as a Windows application.
                     I recommend you to not use that app for
                     encryption/decryption as it has some major flaws. This
                     version is safer and it is not compatible with the files
                     encrypted by Windows app.
-                  </Label>
+                  </Label> */}
                   <br />
                   <Label>
-                    The backend API is built with Django and the frontend UI is
-                    built with Next.js. The code is open-source, you can go
-                    through them in GitHub ~ if you ever need some inspo.
+                    The backend API is built with Django (Python) and the
+                    frontend UI is built with Next.js. The code is open-source,
+                    you can go through them in GitHub ~ if you ever need some
+                    inspo.
                   </Label>
                 </div>
               </Center>
