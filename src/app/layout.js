@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Make It Secret",
-  description: "Encrypt or Decrypt files",
+  description: "A simple solution for file encryption",
 };
 
 export const viewport = {
