@@ -26,7 +26,6 @@ import KeyInput from "../KeyInput";
 import style from "./style.module.css";
 
 import { API_ROOT } from "@/utilities";
-import $ from "jquery";
 
 const API_HEADER = process.env.NEXT_PUBLIC_API_HEADER;
 
@@ -174,25 +173,24 @@ export default class FileModal extends Component {
         apiURL += "/api/decrypt/";
       }
 
-      $.ajax({
-        url: apiURL,
-        method: "POST",
-        headers: {
-          app: API_HEADER,
-        },
-        data: formData,
-        xhrFields: {
-          responseType: "blob",
-        },
-        processData: false,
-        contentType: false,
-        success: (resp, status, xhr) => {
+      let xhr = new XMLHttpRequest();
+
+      xhr.open("POST", apiURL);
+      xhr.setRequestHeader("app", API_HEADER);
+      xhr.responseType = "blob";
+      xhr.send(formData);
+
+      xhr.onload = (e) => {
+        let status = e.target.status;
+
+        if (status == 200) {
+          let file = e.target.response;
           let fileName = JSON.parse(
             xhr.getResponseHeader("content-disposition").split("filename=")[1]
           );
 
           if (typeof window !== "undefined") {
-            const url = window.URL.createObjectURL(resp);
+            const url = window.URL.createObjectURL(file);
             const a = document.createElement("a");
             a.style.display = "none";
             a.href = url;
@@ -227,13 +225,11 @@ export default class FileModal extends Component {
               transition: Bounce,
             });
           }
-          this.setState({ ...this.state, progress: false, open });
-        },
-        error: (err) => {
-          console.log("ERROR", err);
+        } else {
+          console.log("ERROR", e);
 
           toast.error(
-            err.status === 555
+            e.target.status === 555
               ? "Invalid encryption key!"
               : "Something went wrong. Please try again",
             {
@@ -246,10 +242,9 @@ export default class FileModal extends Component {
               transition: Bounce,
             }
           );
-
-          this.setState({ ...this.state, progress: false });
-        },
-      });
+        }
+        this.setState({ ...this.state, progress: false, open });
+      };
     }
   }
 
