@@ -43,7 +43,9 @@ export default class Home extends Component {
               </Center>
               <br />
               <Center>
-                <Title subtitle={true}>Encrypt or Decrypt file</Title>
+                <Title subtitle={true}>
+                  A simple solution for file encryption
+                </Title>
               </Center>
             </Box>
             <Box>
