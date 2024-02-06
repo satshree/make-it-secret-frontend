@@ -15,6 +15,7 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
+import { toast, Bounce } from "react-toastify";
 
 import Image from "next/image";
 
@@ -120,7 +121,7 @@ export default class FileDrawer extends Component {
         type: fileType,
       },
     });
-    this.props.setEncrypt(encryptMode);
+    // this.props.setEncrypt(encryptMode);
   }
 
   validateKey() {
@@ -139,8 +140,95 @@ export default class FileDrawer extends Component {
   }
 
   submitEncryption() {
-    if (this.validateKey())
-      this.props.submitEncryption(this.state.data.key, this.state.encryptMode);
+    if (this.validateKey()) {
+      this.setState({ ...this.state, progress: true });
+
+      let { file, data, encryptMode, open } = this.state;
+      let formData = new FormData();
+      let apiURL = API_ROOT;
+
+      formData.append("key", data.key);
+      formData.append("file", file.file);
+
+      if (encryptMode) {
+        apiURL += "/api/encrypt/";
+      } else {
+        apiURL += "/api/decrypt/";
+      }
+
+      let xhr = new XMLHttpRequest();
+
+      xhr.open("POST", apiURL);
+      xhr.setRequestHeader("app", API_HEADER);
+      xhr.responseType = "blob";
+      xhr.send(formData);
+
+      xhr.onload = (e) => {
+        let status = e.target.status;
+
+        if (status == 200) {
+          let file = e.target.response;
+          let fileName = JSON.parse(
+            xhr.getResponseHeader("content-disposition").split("filename=")[1]
+          );
+
+          if (typeof window !== "undefined") {
+            const url = window.URL.createObjectURL(file);
+            const a = document.createElement("a");
+            a.style.display = "none";
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+
+            toast.success(
+              `File ${encryptMode ? "encryption" : "decryption"} successful`,
+              {
+                position: "top-center",
+                autoClose: 9000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+              }
+            );
+
+            open = false;
+          } else {
+            toast.warning("Something went wrong. Please try again", {
+              position: "top-center",
+              autoClose: 9000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              theme: "colored",
+              transition: Bounce,
+            });
+          }
+        } else {
+          console.log("ERROR", e);
+
+          toast.error(
+            e.target.status === 555
+              ? "Invalid encryption key!"
+              : "Something went wrong. Please try again",
+            {
+              position: "top-center",
+              autoClose: 9000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              theme: "colored",
+              transition: Bounce,
+            }
+          );
+        }
+        this.setState({ ...this.state, progress: false, open });
+      };
+    }
   }
 
   render() {
