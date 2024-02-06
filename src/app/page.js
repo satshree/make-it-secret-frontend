@@ -11,11 +11,6 @@ import FileDrawer from "@/components/FileDrawer";
 import UploadCard from "@/components/UploadCard";
 import AboutDrawer from "@/components/AboutDrawer";
 
-import $ from "jquery";
-import { API_ROOT } from "@/utilities";
-
-const API_HEADER = process.env.NEXT_PUBLIC_API_HEADER;
-
 // import style from "./page.module.css";
 
 export default class Home extends Component {
