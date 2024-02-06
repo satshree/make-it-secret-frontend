@@ -14,6 +14,7 @@ import {
   Link,
   Center,
   Button,
+  HStack,
 } from "@chakra-ui/react";
 
 import Label from "../Label";
@@ -56,16 +57,31 @@ export default class AboutDrawer extends Component {
                   <Label>
                     Make It Secret is a simple app that Encrypts or Decrypts a
                     file with a strong AES (American Encryption Standard)
-                    Encryption Algorithm.
-                  </Label>
-                  <Label>
-                    With Make It Secret, you can make any files inaccessible and
-                    of course, only you can decrypt them with your key!
+                    Encryption Algorithm. With Make It Secret, you can make any
+                    files inaccessible and of course, only you can decrypt them
+                    with your key. Make sure to store the key used for
+                    encryption in a safe way. Without the key, the encrypted
+                    file cannot be decrypted and there is no way to recover the
+                    lost key!
                   </Label>
                   <br />
                   <Label>
-                    Ever wanted to hide some files from others? This is the app
-                    for you.
+                    No files or any data is stored in any servers. The process
+                    is completely safe.
+                  </Label>
+                  <br />
+                  <Label>
+                    Make It Secret was also available as a Windows application.
+                    I recommend you to not use that app for
+                    encryption/decryption as it has some major flaws. This
+                    version is safer and it is not compatible with the files
+                    encrypted by Windows app.
+                  </Label>
+                  <br />
+                  <Label>
+                    The backend API is built with Django and the frontend UI is
+                    built with Next.js. The code is open-source, you can go
+                    through them in GitHub ~ if you ever need some inspo.
                   </Label>
                 </div>
               </Center>
@@ -73,23 +89,26 @@ export default class AboutDrawer extends Component {
             <br />
             <Box>
               <Center>
-                <Link
-                  href="https://github.com/satshree/make-it-secret-frontend"
-                  isExternal={true}
-                >
-                  <Button variant="solid" colorScheme="blue">
-                    GitHub
-                  </Button>
-                </Link>
+                <HStack spacing="1rem">
+                  <Link
+                    href="https://github.com/satshree/make-it-secret-frontend"
+                    isExternal={true}
+                  >
+                    <Button variant="solid" colorScheme="blue">
+                      Frontend GitHub
+                    </Button>
+                  </Link>
+                  <Link
+                    href="https://github.com/satshree/make-it-secret-api"
+                    isExternal={true}
+                  >
+                    <Button variant="solid" colorScheme="blue">
+                      Backend GitHub
+                    </Button>
+                  </Link>
+                </HStack>
               </Center>
               <br />
-              <Center>
-                <small>
-                  <Label>
-                    The Backend API is not public for security reasons.
-                  </Label>
-                </small>
-              </Center>
             </Box>
           </DrawerBody>
         </DrawerContent>
