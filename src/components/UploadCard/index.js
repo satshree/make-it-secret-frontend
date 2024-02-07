@@ -25,19 +25,21 @@ export default function UploadCard(props) {
           border: "1px solid #FFFFFF",
         });
 
-        if (
-          file.type === "" &&
-          file.name.split(".")[file.name.split(".").length - 1] !== "mis"
-        ) {
-          toast({
-            description: "Unrecognized file type.",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        } else {
-          props.setFile(files[0]);
-        }
+        props.setFile(file);
+
+        // if (
+        //   file.type === "" &&
+        //   file.name.split(".")[file.name.split(".").length - 1] !== "mis"
+        // ) {
+        //   toast({
+        //     description: "Unrecognized file type.",
+        //     status: "error",
+        //     duration: 9000,
+        //     isClosable: true,
+        //   });
+        // } else {
+        //   props.setFile(files[0]);
+        // }
       }}
       onDropRejected={() => {
         toast.error("Unable to accept your file. Please try again", {

@@ -120,11 +120,14 @@ export default class FileModal extends Component {
     let fileType = file.type;
 
     if (
-      file.type === "" &&
+      fileType === "" &&
       file.name.split(".")[file.name.split(".").length - 1] === "mis"
     ) {
       encryptMode = false;
       fileType = "makeitsecret file";
+    } else if (fileType === "") {
+      fileType =
+        file.name.split(".")[file.name.split(".").length - 1] + " file";
     }
 
     this.setState({
