@@ -236,6 +236,10 @@ export default class FileDrawer extends Component {
       <Drawer
         placement="bottom"
         isOpen={this.state.open}
+        closeOnOverlayClick={false}
+        onEsc={() => {
+          // do nothing
+        }}
         onClose={this.closeDrawer}
         onCloseComplete={this.resetDrawerData}
       >
