@@ -255,11 +255,9 @@ export default class FileModal extends Component {
     return (
       <Modal
         isCentered={true}
+        closeOnEsc={false}
         isOpen={this.state.open}
         closeOnOverlayClick={false}
-        onEsc={() => {
-          // do nothing
-        }}
         onClose={this.closeModal}
         onCloseComplete={this.resetModalData}
       >
