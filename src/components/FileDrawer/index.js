@@ -156,35 +156,66 @@ export default class FileDrawer extends Component {
         apiURL += "/api/decrypt/";
       }
 
-      let xhr = new XMLHttpRequest();
+      try {
+        let xhr = new XMLHttpRequest();
 
-      xhr.open("POST", apiURL);
-      xhr.setRequestHeader("app", API_HEADER);
-      xhr.responseType = "blob";
-      xhr.send(formData);
+        xhr.open("POST", apiURL);
+        xhr.setRequestHeader("app", API_HEADER);
+        xhr.responseType = "blob";
+        xhr.send(formData);
 
-      xhr.onload = (e) => {
-        let status = e.target.status;
+        xhr.onload = (e) => {
+          let status = e.target.status;
 
-        if (status == 200) {
-          let file = e.target.response;
-          let fileName = JSON.parse(
-            xhr.getResponseHeader("content-disposition").split("filename=")[1]
-          );
+          if (status == 200) {
+            let file = e.target.response;
+            let fileName = JSON.parse(
+              xhr.getResponseHeader("content-disposition").split("filename=")[1]
+            );
 
-          if (typeof window !== "undefined") {
-            const url = window.URL.createObjectURL(file);
-            const a = document.createElement("a");
-            a.style.display = "none";
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            a.remove();
+            if (typeof window !== "undefined") {
+              const url = window.URL.createObjectURL(file);
+              const a = document.createElement("a");
+              a.style.display = "none";
+              a.href = url;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+              a.remove();
 
-            toast.success(
-              `File ${encryptMode ? "encryption" : "decryption"} successful`,
+              toast.success(
+                `File ${encryptMode ? "encryption" : "decryption"} successful`,
+                {
+                  position: "top-center",
+                  autoClose: 9000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  theme: "colored",
+                  transition: Bounce,
+                }
+              );
+
+              open = false;
+            } else {
+              toast.warning("Something went wrong. Please try again", {
+                position: "top-center",
+                autoClose: 9000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                theme: "colored",
+                transition: Bounce,
+              });
+            }
+          } else {
+            console.log("ERROR", e);
+
+            toast.error(
+              e.target.status === 555
+                ? "Invalid encryption key!"
+                : "Something went wrong. Please try again",
               {
                 position: "top-center",
                 autoClose: 9000,
@@ -195,39 +226,24 @@ export default class FileDrawer extends Component {
                 transition: Bounce,
               }
             );
-
-            open = false;
-          } else {
-            toast.warning("Something went wrong. Please try again", {
-              position: "top-center",
-              autoClose: 9000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              theme: "colored",
-              transition: Bounce,
-            });
           }
-        } else {
-          console.log("ERROR", e);
+          this.setState({ ...this.state, progress: false, open });
+        };
+      } catch (e) {
+        console.log("ERROR", e);
 
-          toast.error(
-            e.target.status === 555
-              ? "Invalid encryption key!"
-              : "Something went wrong. Please try again",
-            {
-              position: "top-center",
-              autoClose: 9000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              theme: "colored",
-              transition: Bounce,
-            }
-          );
-        }
-        this.setState({ ...this.state, progress: false, open });
-      };
+        toast.error("Something went wrong. Please try again", {
+          position: "top-center",
+          autoClose: 9000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          theme: "colored",
+          transition: Bounce,
+        });
+
+        this.setState({ ...this.state, progress: false });
+      }
     }
   }
 
