@@ -244,7 +244,7 @@ export default class FileDrawer extends Component {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader>{this.getTitle()}</DrawerHeader>
-          <DrawerCloseButton />
+          <DrawerCloseButton disabled={this.state.progress} />
           <DrawerBody>
             <div>
               <Label>File Details</Label>
@@ -284,7 +284,12 @@ export default class FileDrawer extends Component {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button colorScheme="gray" mr={3} onClick={this.closeDrawer}>
+            <Button
+              colorScheme="gray"
+              mr={3}
+              disabled={this.state.progress}
+              onClick={this.closeDrawer}
+            >
               Close
             </Button>
             <Button

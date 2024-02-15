@@ -268,7 +268,7 @@ export default class FileModal extends Component {
           height="fit-content"
         >
           <ModalHeader>{this.getTitle()}</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton disabled={this.state.progress} />
           <ModalBody>
             <div>
               <Label>File Details</Label>
