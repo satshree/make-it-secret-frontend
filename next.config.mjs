@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: process.env.VERCEL_ENV !== "production",
+  reactStrictMode: false,
 };
 
 export default nextConfig;
